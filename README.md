@@ -14,7 +14,9 @@ Forge is an architecture specification and agent team design for building an AI 
 |---|---|
 | [Platform Architecture Spec](docs/spec/platform-architecture-spec.md) | Full architecture specification including competitive analysis (OpenHands, BizTalk, MAF, Foundry, LangGraph, CrewAI, n8n), component designs, technology stack, and 5-phase delivery plan |
 | [Hidden Features Addendum](docs/addendum/hidden-features-addendum.md) | 26 features mined from Azure Durable Functions, AWS Step Functions, Google Cloud Workflows, OCI, Temporal.io, Apache Airflow, AWS Bedrock, and Google Vertex AI |
-| [Agent Team Flow](docs/agent-flow/agent-team-flow.md) | Architect → PM → Developer → Security Engineer agent pipeline with 4 operating modes, system prompts, message protocol, and efficiency optimizations |
+| **[Agent Org v3 — Lean Model](docs/agent-flow/agent-org-v3-lean.md)** | **Active spec.** 8-agent team with 3-step PR flow, domain-informed Questioner, and scaling path to 12 agents |
+| [Agent Team Flow v1](docs/agent-flow/agent-team-flow.md) | Original 4-agent design (superseded by v3) |
+| [Agent Org v2](docs/agent-flow/agent-org-v2.md) | 12-agent model (retained as Phase 3+ scale-up target, superseded by v3 for Phase 1-2) |
 
 ## Core Concepts
 
@@ -46,15 +48,26 @@ Forge is an architecture specification and agent team design for building an AI 
 └──────────────────────────────────────────────────────────────┘
 ```
 
-## Agent Build Team
+## Agent Build Team (8-Agent Lean Model)
 
-The platform is designed to be partially built by its own agent system:
+The platform is designed to be partially built by its own agent system. The lean model uses 8 agents with a 3-step PR flow, scaling to 12 when complexity warrants:
 
 ```
-ARCHITECT ████░░░░░░░░░░░░░░░░░░████  (design first, review last)
-SECURITY  ░░██░░░░░░░░░░░░░░░░██░░░░  (threat model early, scan late)
-PM        ░░░░████░░░░░░░░████░░░░░░  (stories after design, tracking during build)
-DEVELOPER ░░░░░░░░████████████░░░░░░  (heads-down implementation)
+CROSS-CUTTING:   Chronicler (logs/digests)  │  Questioner (domain-informed challenges)
+ARCHITECTURE:    System Architect            │  AI & Efficiency Architect
+EXECUTION:       PM  │  App Developer  │  Platform & AI/ML Developer  │  Security Engineer
+```
+
+```
+3-STEP PR FLOW:
+
+  Developer self-review (embedded quality checklist)
+       │
+       ├──▶ Security scan ──┐
+       ├──▶ Architect review ├── parallel, all at once
+       └──▶ Questioner (if triggered)
+                             │
+                          Merge
 ```
 
 ## Competitive Landscape
